@@ -1,13 +1,11 @@
 package br.com.zup.mercadolivre.modelo;
 
+import br.com.zup.mercadolivre.annotation.UniqueValue;
 import br.com.zup.mercadolivre.utils.SenhaLimpa;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +18,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank @Email
+    @NotBlank @Email @Column(unique = true)
     private String login;
     @NotBlank @Size(min = 6)
     private String senha;

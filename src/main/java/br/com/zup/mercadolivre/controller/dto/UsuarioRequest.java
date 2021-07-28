@@ -1,5 +1,6 @@
 package br.com.zup.mercadolivre.controller.dto;
 
+import br.com.zup.mercadolivre.annotation.UniqueValue;
 import br.com.zup.mercadolivre.modelo.Usuario;
 import br.com.zup.mercadolivre.utils.SenhaLimpa;
 
@@ -8,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class UsuarioRequest {
-    @NotBlank @Email
+    @NotBlank @Email @UniqueValue(domainClass = Usuario.class, fieldName = "login")
     private String login;
     @NotBlank @Size(min = 6)
     private String senhaLimpa;
