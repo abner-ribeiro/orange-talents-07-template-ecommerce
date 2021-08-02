@@ -9,18 +9,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class UsuarioRequest {
-    @NotBlank @Email @UniqueValue(domainClass = Usuario.class, fieldName = "login")
-    private String login;
+    @NotBlank @Email @UniqueValue(domainClass = Usuario.class, fieldName = "email")
+    private String email;
     @NotBlank @Size(min = 6)
     private String senhaLimpa;
 
-    public UsuarioRequest(String login, String senhaLimpa) {
-        this.login = login;
+    public UsuarioRequest(String email, String senhaLimpa) {
+        this.email = email;
         this.senhaLimpa = senhaLimpa;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
     public String getSenhaLimpa() {
@@ -28,6 +28,6 @@ public class UsuarioRequest {
     }
 
     public Usuario toModel(){
-        return new Usuario(login,new SenhaLimpa(senhaLimpa));
+        return new Usuario(email,new SenhaLimpa(senhaLimpa));
     }
 }

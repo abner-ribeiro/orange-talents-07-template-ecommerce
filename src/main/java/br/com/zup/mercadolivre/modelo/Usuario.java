@@ -19,28 +19,32 @@ public class Usuario {
     private Long id;
 
     @NotBlank @Email @Column(unique = true)
-    private String login;
+    private String email;
     @NotBlank @Size(min = 6)
     private String senha;
     @NotNull
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
-    public Usuario(String login, SenhaLimpa senhaLimpa) {
-        Assert.hasLength(login, "O login não pode ser em branco");
-        Assert.notNull(login, "o login não pode ser nulo");
+    public Usuario(String email, SenhaLimpa senhaLimpa) {
+        Assert.hasLength(email, "O email não pode ser em branco");
+        Assert.notNull(email, "o email não pode ser nulo");
         Assert.notNull(senhaLimpa, "O objeto do tipo senha limpa não pode ser nulo");
 
-        this.login = login;
+        this.email = email;
         this.senha = senhaLimpa.encode();
     }
     @Deprecated
     public Usuario(){}
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public String getSenha() {
+        return senha;
     }
 }

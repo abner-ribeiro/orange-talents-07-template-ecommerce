@@ -24,6 +24,6 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid UsuarioRequest usuarioRequest){
         Usuario usuario = usuarioRequest.toModel();
         usuarioRepository.save(usuario);
-        return ResponseEntity.status(HttpStatus.OK).body(new UsuarioResponse(usuario.getLogin(),usuario.getDataCriacao()));
+        return ResponseEntity.status(HttpStatus.OK).body(new UsuarioResponse(usuario.getEmail(),usuario.getDataCriacao()));
     }
 }
