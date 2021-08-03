@@ -1,0 +1,61 @@
+package br.com.zup.mercadolivre.modelo;
+
+import br.com.zup.mercadolivre.controller.dto.CaracteristicaRequest;
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+public class Produto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotBlank
+    private String nome;
+    @NotNull @Positive
+    private BigDecimal valor;
+    @NotNull @PositiveOrZero
+    private Integer quantidade;
+    @Size(min = 3)
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
+    private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+    @NotBlank @Size(max = 1000)
+    private String descricao;
+    @NotNull
+    @ManyToOne
+    private Usuario dono;
+    @NotNull
+    @ManyToOne
+    private Categoria categoria;
+    private LocalDateTime dataCriacao = LocalDateTime.now();
+
+    public Produto(String nome, BigDecimal valor, Integer quantidade, String descricao, Categoria categoria, Usuario dono, List<CaracteristicaRequest> caracteristicas) {
+        this.nome = nome;
+        this.valor = valor;
+        this.quantidade = quantidade;
+        caracteristicas.forEach(caracteristica -> this.caracteristicas.add(caracteristica.toModel(this)));
+        this.descricao = descricao;
+        this.categoria = categoria;
+        this.dono = dono;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                ", quantidade=" + quantidade +
+                ", descricao='" + descricao + '\'' +
+                ", dono=" + dono +
+                ", categoria=" + categoria +
+                ", dataCriacao=" + dataCriacao +
+                '}';
+    }
+}
