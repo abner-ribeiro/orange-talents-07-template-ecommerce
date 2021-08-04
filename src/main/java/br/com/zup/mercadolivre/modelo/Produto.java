@@ -38,8 +38,10 @@ public class Produto {
     private LocalDateTime dataCriacao = LocalDateTime.now();
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private List<ImagemProduto> imagens = new ArrayList<>();
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "produto")
     private List<Opiniao> opinioes = new ArrayList<>();
+    @OneToMany(mappedBy = "produto")
+    private List<Pergunta> perguntas = new ArrayList<>();
 
     public Produto(String nome, BigDecimal valor, Integer quantidade, String descricao, Categoria categoria, Usuario dono, List<CaracteristicaRequest> caracteristicas) {
         this.nome = nome;
@@ -63,6 +65,34 @@ public class Produto {
 
     public Usuario getDono() {
         return dono;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public List<Opiniao> getOpinioes() {
+        return opinioes;
+    }
+
+    public List<Pergunta> getPerguntas() {
+        return perguntas;
+    }
+
+    public List<String> getImagensUrl() {
+        return imagens.stream().map(imagemProduto -> imagemProduto.getUrl()).collect(Collectors.toList());
+    }
+
+    public Set<CaracteristicaProduto> getCaracteristicas() {
+        return caracteristicas;
     }
 
     @Override

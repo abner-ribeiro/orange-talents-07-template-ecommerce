@@ -23,6 +23,10 @@ public class CaracteristicaProduto {
         this.produto = produto;
     }
 
+    @Deprecated
+    public CaracteristicaProduto() {
+    }
+
     @Override
     public String toString() {
         return "CaracteristicaProduto{" +
@@ -31,5 +35,13 @@ public class CaracteristicaProduto {
                 ", descricao='" + descricao + '\'' +
                 ", produto=" + produto +
                 '}';
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 }

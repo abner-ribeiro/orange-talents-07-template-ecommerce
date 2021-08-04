@@ -18,4 +18,8 @@ public class ImagemProduto {
     @Deprecated
     public ImagemProduto(){
     }
+
+    public String getUrl() {
+        return url;
+    }
 }

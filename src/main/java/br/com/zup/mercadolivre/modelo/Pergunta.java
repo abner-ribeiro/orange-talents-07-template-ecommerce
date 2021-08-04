@@ -26,4 +26,13 @@ public class Pergunta {
         this.usuario = usuario;
         this.produto = produto;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
 }

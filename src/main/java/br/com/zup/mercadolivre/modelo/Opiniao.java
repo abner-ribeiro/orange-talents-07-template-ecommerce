@@ -49,4 +49,16 @@ public class Opiniao {
                 ", produto=" + produto +
                 '}';
     }
+
+    public String getTitulo() {
+        return this.titulo;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
+    }
+
+    public Integer getNota() {
+        return this.nota;
+    }
 }

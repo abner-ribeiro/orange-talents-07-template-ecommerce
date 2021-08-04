@@ -3,6 +3,7 @@ package br.com.zup.mercadolivre.controller;
 import br.com.zup.mercadolivre.annotation.IdExists;
 import br.com.zup.mercadolivre.controller.dto.ImagemRequest;
 import br.com.zup.mercadolivre.controller.dto.OpiniaoRequest;
+import br.com.zup.mercadolivre.controller.dto.ProdutoDetalheResponse;
 import br.com.zup.mercadolivre.controller.dto.ProdutoRequest;
 import br.com.zup.mercadolivre.modelo.ImagemProduto;
 import br.com.zup.mercadolivre.modelo.Opiniao;
@@ -70,6 +71,17 @@ public class ProdutoController {
         opiniaoRepository.save(opiniao);
         produto.addOpiniao(opiniao);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDetalheResponse> detalhaProduto(@PathVariable Long id){
+        Optional<Produto> possivelProduto = produtoRepository.findById(id);
+        //Ou seja, ele valida se o id do produto existe e se ele é mesmo o dono do produto
+        if(possivelProduto.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        Produto produto = possivelProduto.get();
+        return ResponseEntity.ok().body(new ProdutoDetalheResponse(produto));
     }
 
 }
