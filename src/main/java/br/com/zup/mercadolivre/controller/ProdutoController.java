@@ -2,14 +2,13 @@ package br.com.zup.mercadolivre.controller;
 
 import br.com.zup.mercadolivre.annotation.IdExists;
 import br.com.zup.mercadolivre.controller.dto.ImagemRequest;
+import br.com.zup.mercadolivre.controller.dto.OpiniaoRequest;
 import br.com.zup.mercadolivre.controller.dto.ProdutoRequest;
 import br.com.zup.mercadolivre.modelo.ImagemProduto;
+import br.com.zup.mercadolivre.modelo.Opiniao;
 import br.com.zup.mercadolivre.modelo.Produto;
 import br.com.zup.mercadolivre.modelo.Usuario;
-import br.com.zup.mercadolivre.repository.CategoriaRepository;
-import br.com.zup.mercadolivre.repository.ImagemProdutoRepository;
-import br.com.zup.mercadolivre.repository.ProdutoRepository;
-import br.com.zup.mercadolivre.repository.UsuarioRepository;
+import br.com.zup.mercadolivre.repository.*;
 import br.com.zup.mercadolivre.utils.UploaderSimulador;
 import br.com.zup.mercadolivre.utils.UsuarioLogado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,8 @@ public class ProdutoController {
     @Autowired
     private UploaderSimulador uploaderSimulador;
     @Autowired
+    private OpiniaoRepository opiniaoRepository;
+    @Autowired
     private ImagemProdutoRepository imagemProdutoRepository;
 
     @PostMapping
@@ -54,6 +55,20 @@ public class ProdutoController {
         Produto produto = possivelProduto.get();
         produto.associaImagens(urls);
         produtoRepository.save(produto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/opinioes")
+    public ResponseEntity adicionaOpinioes(@RequestBody @Valid OpiniaoRequest opiniaoRequest,@PathVariable Long id ,@AuthenticationPrincipal UsuarioLogado usuarioLogado){
+        Optional<Produto> possivelProduto = produtoRepository.findById(id);
+        //Ou seja, ele valida se o id do produto existe e se ele é mesmo o dono do produto
+        if(possivelProduto.isEmpty() || !possivelProduto.get().getDono().equals(usuarioLogado.get())){
+            return ResponseEntity.badRequest().build();
+        }
+        Produto produto = possivelProduto.get();
+        Opiniao opiniao = opiniaoRequest.toModel(usuarioLogado.get(), produto);
+        opiniaoRepository.save(opiniao);
+        produto.addOpiniao(opiniao);
         return ResponseEntity.ok().build();
     }
 
