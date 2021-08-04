@@ -12,9 +12,6 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
 public class UniqueCaracteristicValidator implements ConstraintValidator<UniqueCaracteristic, ProdutoRequest> {
-    @PersistenceContext
-    private EntityManager manager;
-
     @Override
     public void initialize(UniqueCaracteristic constraintAnnotation) {
     }

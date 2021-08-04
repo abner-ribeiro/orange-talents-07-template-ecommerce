@@ -67,6 +67,10 @@ public class Produto {
         return dono;
     }
 
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
     public String getNome() {
         return nome;
     }
