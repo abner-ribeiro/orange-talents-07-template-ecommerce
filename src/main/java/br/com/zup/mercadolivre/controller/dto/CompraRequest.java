@@ -28,7 +28,7 @@ public class CompraRequest {
         if(!abateu){
             return Optional.empty();
         }
-        return Optional.of(new Compra(quantidade, produto, comprador, gatewayPagamento, Status.iniciado));
+        return Optional.of(new Compra(quantidade, produto, comprador, gatewayPagamento));
     }
 
     public Integer getQuantidade() {

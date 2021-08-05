@@ -23,18 +23,26 @@ public class Compra {
     @NotNull @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Compra(Integer quantidade, Produto produto, Usuario comprador, GatewayPagamento gatewayPagamento, Status status) {
+    public Compra(Integer quantidade, Produto produto, Usuario comprador, GatewayPagamento gatewayPagamento) {
         this.quantidade = quantidade;
         this.produto = produto;
         this.comprador = comprador;
         this.gatewayPagamento = gatewayPagamento;
-        this.status = status;
+        this.status = Status.iniciado;
     }
     @Deprecated
     public Compra(){}
 
     public Long getId() {
         return id;
+    }
+
+    public String getUrlRetornoGateway(){
+        if(gatewayPagamento == GatewayPagamento.paypal){
+            return "paypal.com?buyerId="+id+"&redirectUrl=paypal.fake.com";
+        }else{
+            return "pagseguro.com?returnId="+id+"&redirectUrl=pagseguro.fake.com";
+        }
     }
 
     @Override

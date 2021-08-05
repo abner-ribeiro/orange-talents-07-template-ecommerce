@@ -40,19 +40,15 @@ public class CompraController {
 
         if(possivelCompra.isEmpty()){
             ErroDeFormularioDto erroDeFormularioDto = new ErroDeFormularioDto("Compra","Não foi possivel realizar a compra, estoque indisponível");
-            ResponseEntity.badRequest().body(erroDeFormularioDto);
+            return ResponseEntity.badRequest().body(erroDeFormularioDto);
         }
 
         Compra compra = possivelCompra.get();
         compraRepository.save(compra);
         disparadorDeEmail.enviaEmail(produto.getDono());
 
-        URI uri;
-        if(compraRequest.getGatewayPagamento() == GatewayPagamento.paypal){
-            uri = uriBuilder.path("paypal.com?buyerId={idGeradoDaCompra}&redirectUrl=simula.fake.com").buildAndExpand(compra.getId()).toUri();
-        }else{
-            uri = uriBuilder.path("pagseguro.com?returnId={idGeradoDaCompra}&redirectUrl=simula.fake.com").buildAndExpand(compra.getId()).toUri();
-        }
+        URI uri = uriBuilder.path(compra.getUrlRetornoGateway()).buildAndExpand(compra.getId()).toUri();
+
         return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
     }
 }
