@@ -34,7 +34,7 @@ public class CompraController {
 
     @PostMapping("/compras")
     @Transactional
-    public ResponseEntity compraProdutoParte01(@RequestBody @Valid CompraRequest compraRequest, @AuthenticationPrincipal UsuarioLogado usuarioLogado, UriComponentsBuilder uriBuilder){
+    public ResponseEntity compraProdutoParte01(@RequestBody @Valid CompraRequest compraRequest, @AuthenticationPrincipal UsuarioLogado usuarioLogado){
         Produto produto = produtoRepository.findById(compraRequest.getProdutoId()).get();
         Optional<Compra> possivelCompra = compraRequest.toModel(produto, usuarioLogado.get());
 
@@ -47,8 +47,6 @@ public class CompraController {
         compraRepository.save(compra);
         disparadorDeEmail.enviaEmail(produto.getDono());
 
-        URI uri = uriBuilder.path(compra.getUrlRetornoGateway()).buildAndExpand(compra.getId()).toUri();
-
-        return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(compra.getUrlRetornoGateway())).build();
     }
 }
