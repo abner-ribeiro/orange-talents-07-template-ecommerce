@@ -63,6 +63,15 @@ public class Produto {
         this.opinioes.add(opiniao);
     }
 
+    public boolean abateEstoque(int quantidadeAbater){
+        if(quantidade >= quantidadeAbater){
+            this.quantidade -= quantidadeAbater;
+            return true;
+        }
+        return false;
+    }
+
+
     public Usuario getDono() {
         return dono;
     }
