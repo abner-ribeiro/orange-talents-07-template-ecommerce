@@ -18,17 +18,10 @@ public class CompraRequest {
     @NotNull
     private GatewayPagamento gatewayPagamento;
 
-    public CompraRequest(Integer quantidade, Long produtoId) {
+    public CompraRequest(Integer quantidade, Long produtoId,GatewayPagamento gateway) {
         this.quantidade = quantidade;
         this.produtoId = produtoId;
-    }
-
-    public Optional<Compra> toModel(Produto produto, Usuario comprador){
-        boolean abateu = produto.abateEstoque(quantidade);
-        if(!abateu){
-            return Optional.empty();
-        }
-        return Optional.of(new Compra(quantidade, produto, comprador, gatewayPagamento));
+        this.gatewayPagamento = gateway;
     }
 
     public Integer getQuantidade() {

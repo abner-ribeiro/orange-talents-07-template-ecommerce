@@ -71,4 +71,8 @@ public class Usuario {
                 ", dataCriacao=" + dataCriacao +
                 '}';
     }
+
+    public Long getId() {
+        return this.id;
+    }
 }

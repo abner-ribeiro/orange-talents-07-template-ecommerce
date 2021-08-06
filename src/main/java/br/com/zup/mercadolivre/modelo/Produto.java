@@ -2,6 +2,7 @@ package br.com.zup.mercadolivre.modelo;
 
 import br.com.zup.mercadolivre.controller.dto.CaracteristicaRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -63,11 +64,15 @@ public class Produto {
         this.opinioes.add(opiniao);
     }
 
-    public boolean abateEstoque(int quantidadeAbater){
-        if(quantidade >= quantidadeAbater){
-            this.quantidade -= quantidadeAbater;
+    public boolean abataEstoque(@Positive int quantidade) {
+        Assert.isTrue(quantidade > 0, "A quantidade deve ser maior que zero para abater o estoque "+quantidade);
+
+        if(quantidade <= this.quantidade) {
+            this.quantidade-=quantidade;
             return true;
+
         }
+
         return false;
     }
 
